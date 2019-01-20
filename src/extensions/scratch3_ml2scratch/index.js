@@ -4,6 +4,12 @@ const Cast = require('../../util/cast');
 const log = require('../../util/log');
 const formatMessage = require('format-message');
 const Message = {
+  open_ml2scratch: {
+    'ja': 'ML2Scratchのページを開く',
+    'ja-Hira': 'ML2Scratchのページをひらく',
+    'en': 'Open ML2Scratch page',
+    'zh-cn': '打开ML2Scratch页面'
+  },
   connect_block: {
    'ja': 'ID:[CONN_ID]で接続する',
    'ja-Hira': 'ID:[CONN_ID]でせつぞくする',
@@ -63,6 +69,11 @@ class Scratch3ML2ScratchBlocks {
       name: 'ML2Scratch',
       blocks: [
         {
+          opcode: 'openMl2scratch',
+          blockType: BlockType.COMMAND,
+          text: Message.open_ml2scratch[this._locale]
+        },
+        {
           opcode: 'connect',
           blockType: BlockType.COMMAND,
           text: Message.connect_block[this._locale],
@@ -100,6 +111,10 @@ class Scratch3ML2ScratchBlocks {
         class_indexes: this.getIndexMenu()
       }
     };
+  }
+
+  openMl2scratch(args) {
+    window.open('https://champierre.github.io/ml2scratch/', '_blank');
   }
 
   connect(args) {
