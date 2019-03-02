@@ -114,7 +114,8 @@ class Scratch3ML2ScratchBlocks {
   }
 
   openMl2scratch(args) {
-    window.open('https://champierre.github.io/ml2scratch/', '_blank');
+    let conn_id = Math.floor(Math.random(100000000) * 100000000);
+    window.open('https://champierre.github.io/ml2scratch/?conn_id=' + conn_id, '_blank');
   }
 
   connect(args) {
