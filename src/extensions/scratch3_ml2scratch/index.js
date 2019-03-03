@@ -60,6 +60,7 @@ class Scratch3ML2ScratchBlocks {
     this._class_index = null;
     this._label = null;
     this._locale = this.setLocale();
+    this._conn_id = Math.floor(Math.random(100000000) * 100000000);
   }
 
   getInfo() {
@@ -80,7 +81,7 @@ class Scratch3ML2ScratchBlocks {
           arguments: {
             CONN_ID: {
               type: ArgumentType.STRING,
-              defaultValue: ""
+              defaultValue: this._conn_id
             }
           }
         },
@@ -113,18 +114,22 @@ class Scratch3ML2ScratchBlocks {
     };
   }
 
-  openMl2scratch(args) {
-    let conn_id = Math.floor(Math.random(100000000) * 100000000);
-    window.open('https://champierre.github.io/ml2scratch/?conn_id=' + conn_id, '_blank');
+  openMl2scratch() {
+    window.open('https://champierre.github.io/ml2scratch/?conn_id=' + this._conn_id, '_blank');
+    this.connectToWSS(this._conn_id);
   }
 
   connect(args) {
-    let _conn_id = args.CONN_ID;
-    if (_conn_id.length == 0) {
+    this._conn_id = args.CONN_ID;
+    if (this._conn_id.length == 0) {
       alert(Message.blank_id_error[this._locale]);
       return;
     }
 
+    connectToWSS(this._conn_id);
+  }
+
+  connectToWSS(conn_id) {
     this._ws = new WebSocket(this._wss_url + '/scratchx');
     this._ws.onmessage = (evt) => {
       let data = JSON.parse(evt.data);
@@ -137,7 +142,7 @@ class Scratch3ML2ScratchBlocks {
       }
     }
     this._ws.onopen = (evt) => {
-      this._ws.send(JSON.stringify({action: 'connect', conn_id: _conn_id}));
+      this._ws.send(JSON.stringify({action: 'connect', conn_id: conn_id}));
     }
   }
 
@@ -185,6 +190,8 @@ class Scratch3ML2ScratchBlocks {
       return 'en';
     }
   }
+
+
 }
 
 module.exports = Scratch3ML2ScratchBlocks;
