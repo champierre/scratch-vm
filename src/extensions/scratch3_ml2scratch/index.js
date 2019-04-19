@@ -126,7 +126,7 @@ class Scratch3ML2ScratchBlocks {
       return;
     }
 
-    connectToWSS(this._conn_id);
+    this.connectToWSS(this._conn_id);
   }
 
   connectToWSS(conn_id) {
